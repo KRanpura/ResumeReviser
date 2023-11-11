@@ -1,25 +1,93 @@
-from flask import Flask, render_template, redirect, request, session, url_for, send_file
+from flask import Flask, render_template, redirect, request, session, url_for, send_file, make_response, g
 import os
-from init_db import get_db
+# from init_db import get_db
 from flask import send_from_directory
 from werkzeug.utils import secure_filename
-app = Flask(__name__)
 
+#from operator import methodcaller
+from os import urandom
+import sqlite3
+
+from needlogin import login_required
+
+
+app = Flask(__name__)
+app.secret_key = urandom(24)
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+
+DATABASE = 'princeton.db'
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'pdf'}
 
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['DATABASE'] = DATABASE
+
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route("/")
 def index():
-    return render_template("mainpage.html")
+    return render_template("index.html")
 
-@app.route("/login")
-def login():
-    return render_template ("login.html" )
+@app.route('/mainpage')
+def mainpage():
+    # if 'user_id' not in session:
+    #     return redirect(url_for('login'))
+    
+    return render_template('mainpage.html')
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    if 'pdf_file' not in request.files or not request.files['pdf_file'].filename:
+        return render_template('mainpage.html', error='No file part')
+
+    file = request.files['pdf_file']
+
+    if file.filename == '':
+        return render_template('mainpage.html', error='No selected file')
+
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(filepath)
+        return render_template('mainpage.html', pdf_path=filepath, filename= filename)
+
+    error = 'Invalid file type' if file else 'No selected file'
+    return render_template('mainpage.html', error=error)
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(
+            app.config['DATABASE'],
+            detect_types=sqlite3.PARSE_DECLTYPES
+        )
+        db.row_factory = sqlite3.Row
+    return db
+
+def init_db():
+    with app.app_context():
+        db = get_db()
+        with app.open_resource('schema.sql') as f:
+            db.executescript(f.read().decode('utf-8'))
+
+
+
+@app.teardown_appcontext
+def close_db(exception):
+    db = getattr(g, "_database", None)
+    if db is not None:
+        db.close()
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -64,32 +132,35 @@ def signup():
 
     return render_template("signup.html")
 
-@app.route("/mainpage")
-def mainpage():
-    return render_template("mainpage.html")
 
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        email = request.form.get("email")
+        passw = request.form.get("passw")  # Rename to "password" for clarity
+        print(email)
+        print(passw)
+        db = get_db()
+        cursor = db.cursor()
 
-@app.route('/upload', methods=['POST'])
-def upload():
-    if 'pdf_file' not in request.files:
-        return render_template('mainpage.html', error='No file part')
+        # Retrieve the user's record from the database based on email
+        cursor.execute("SELECT * FROM users WHERE email = ?", (email,))
+        user = cursor.fetchone()
 
-    file = request.files['pdf_file']
+        if not user:
+            return render_template("error.html")
 
-    if file.filename == '':
-        return render_template('mainpage.html', error='No selected file')
+        # Compare the provided password with the password stored in the database
+        if user["passw"] == passw:  # Assuming both are plain text
+            # Store user information in the session
+            session["user_id"] = user["id"]
+            return redirect(url_for("mainpage"))
+        else:
+            return render_template("error.html")
 
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(filepath)
-        return render_template('mainpage.html', pdf_path=filepath, filename = filename)
+    return render_template("login.html")
 
-    return render_template('mainpage.html', error='Invalid file type')
 
-if __name__ == '__main__':
+init_db()
+if __name__ == "__main__":
     app.run(debug=True)
-

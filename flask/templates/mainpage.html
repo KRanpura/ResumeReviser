@@ -16,5 +16,21 @@
     {% if pdf_path %}
         <iframe src="{{ url_for('uploaded_file', filename=filename) }}" width="800" height="600" style="border: none;"></iframe>
     {% endif %}
+
+    <h4>Select career types you are interested in.</h4>
+    <input type="Checkbox" name="Computer Science" value="yes">Computer Science
+    <input type="Checkbox" name="Education" value="yes">Marketing
+    <input type="Checkbox" name="Medicine" value="yes">Medicine
+    <input type="Checkbox" name="Teaching" value="yes">Teaching
+    <input type="Checkbox" name="Social Work" value="yes">Social Work
+
+
+    <h4>Enter a job listing below</h4>
+    <form method="post">
+        <label for="job_listing">Job Listing:</label>
+        <textarea id="job_listing" name="job_listing" rows="10" cols="50"></textarea>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>
