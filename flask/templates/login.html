@@ -5,23 +5,29 @@
 
 <head>
 	<title>Login</title>
-	<link rel="stylesheet" href="{{url_for('static', filename='css/box.css')}}">
+	<link rel="stylesheet" href="{{url_for('static', filename='css/form.css')}}">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
-<body>
-<div>
+<body class="text-center">
+<!-- <div>
 	<img src="{{ url_for('static', filename='resources/logo.png') }}">
     <h1>ResumeReviser</h1>
-</div>
+</div> -->
 	
 
-<form class="box" method="post">
-	<h2 id="boxtext" style="padding-top:50px;">LOGIN</h2>
-	<input type="text" name="email" placeholder="EMAIL"><br>
-	<input type="password" name="passw" placeholder="PASSWORD"><br>
-	<input type="submit" value="Login"><br>
-	<p id="boxtext">Don't have an account? <a href="{{ url_for('signup') }}">Sign up</a></p>
+<form method="post" class="form-signin">
+	<img class="rounded mx-auto d-block" src="{{ url_for('static', filename='resources/logo.png') }}" alt width = 150 length = 150>
+	<h2 class="form-header" id="form-title1">ResumeReviser</h2>
+	<input type="email" id="inputEmail" class="form-control" placeholder="name@example.com" required autofocus>
+	<input type="password" id="inputPassword" class="form-control" placeholder="password" required>
+	<button class="btn btn-lg btn-primary btn-block btn-light" type="submit">Sign in</button>
+	<p id="form-text" style="margin-top: 20px;">Don't have an account?<br><a style="color: rgb(255, 255, 255)" href="{{ url_for('signup') }}">Sign up</a></p>
 </form>
 
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

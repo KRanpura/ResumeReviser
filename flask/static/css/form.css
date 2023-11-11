@@ -1,0 +1,105 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat");
+@import url("https://fonts.googleapis.com/css2?family=Crimson+Pro&family=Literata");
+
+:root {
+    --palette-black: rgba(2,0,36,1);
+    --palette-darkblue: rgba(5,4,76,1);
+    --palette-navy: rgba(9,9,121,1);
+    --palette-light: rgba(3,213,255,1);
+    --palette-white: rgba();
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-align: center;
+    -ms-flex-pack: center;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+
+    /* global 94%+ browsers support */
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, 
+    var(--palette-black) 0%, 
+    var(--palette-darkblue) 9%, 
+    var(--palette-navy) 29%, 
+    var(--palette-light) 100%);
+    background-size: 100% 200%;
+    /* animation: gradient 8s ease infinite; */
+    color:#fff;
+}
+
+/* @keyframes gradient {
+    0% {
+        background-position: 0 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+} */
+
+.form-signin {
+    width: 100%;
+    padding: 20px;
+    max-width: 330px;
+    margin: 50px auto;
+    border-radius: 5px;
+    animation: slide-up 1.5s ease-in-out forwards;
+    align-content: center;
+}
+
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 20px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+
+@keyframes slide-up {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.form-signin .form-header {
+    margin-bottom: 20px;
+}
+
+#form-title1 {
+    font-family:'Times New Roman', Times, serif;
+    text-align: center;
+    color:  white;
+    margin-top: 10px;
+}
+
+#form-text {
+    font-family: 'Montserrat', Courier, monospace;
+    text-align: center;
+    color:  white;
+}
