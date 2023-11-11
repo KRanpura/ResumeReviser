@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <title>Resume</title>
+</head>
+<body>
+    <h1>Hi User, Upload A Resume</h1>
+    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="pdf_file" accept=".pdf" required>
+        <button type="submit">Upload PDF</button>
+    </form>
+
+    {% if pdf_path %}
+        <iframe src="{{ url_for('uploaded_file', filename=filename) }}" width="800" height="600" style="border: none;"></iframe>
+    {% endif %}
+</body>
+</html>
