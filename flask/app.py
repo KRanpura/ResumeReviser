@@ -59,23 +59,32 @@ def uploaded_file(filename):
 @app.route('/upload', methods=['POST'])
 def upload():
     if 'pdf_file' not in request.files or not request.files['pdf_file'].filename:
-        return render_template('mainpage.html', error='No file part', pdf_path = None)
+        return render_template('mainpage.html', error='No file part', pdf_path=None)
 
     file = request.files['pdf_file']
 
     if file.filename == '':
-        return render_template('mainpage.html', error='No selected file', filename = None, pdf_path = None)
+        return render_template('mainpage.html', error='No selected file', filename=None, pdf_path=None)
 
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
-        return render_template('mainpage.html', pdf_path=filepath, filename= filename, error=None)
+        session['current_filename'] = filename  # Save the current filename in the session
+
+        return render_template('mainpage.html', pdf_path=filepath, filename=filename, error=None)
 
     error = 'Invalid file type' if file else 'No selected file'
-    return render_template('mainpage.html', error=error, filename = None, pdf_path = None)
-if __name__ == '__main__':
-    app.run(debug=True)
+    return render_template('mainpage.html', error=error, filename=None, pdf_path=None)
+
+@app.route('/process_form', methods=['POST'])
+def process_form():
+    job_listing = request.form.get('job_listing')
+    if job_listing:
+        matPercent = checkKeyWordMatch(job_listing)
+        return render_template('mainpage.html', matPercent=matPercent)
+    else:
+        return render_template('mainpage.html', error='Job listing is empty')
 
 def checkKeyWordMatch(job_listing):
     filename = session.get('current_filename')
@@ -91,26 +100,8 @@ def checkKeyWordMatch(job_listing):
         page_obj = pdf_reader.getPage(x + 1)
         text = page_obj.extractText()
 
-        txt_path = os.path.join('txt', f"{filename}.txt")
-        with open(txt_path, "a") as file1:
-            file1.writelines(text)
-
-        with open(txt_path, 'r', encoding='latin-1') as resume_file:
-            resume = resume_file.read()
-
-    # Check if the job_listing is not empty before proceeding
-    if job_listing:
-        # Save job_listing as a new text file
-        job_listing_path = os.path.join('txt', f"{filename}_job_listing.txt")
-        with open(job_listing_path, 'w', encoding='latin-1') as job_listing_file:
-            job_listing_file.write(job_listing)
-
-        # Use the newly created job_listing file as reference
-        reference_path = job_listing_path
-        reference = job_listing
-
-        # Compare the content of resume and reference
-        compare = [resume, reference]
+        if job_listing:
+            compare = [text, job_listing]
 
         cVect = CountVectorizer()
         cMatrix = cVect.fit_transform(compare)
@@ -121,7 +112,7 @@ def checkKeyWordMatch(job_listing):
         return str(matPercent)
 
     # Return a default value if job_listing is empty
-    return "Job listing is empty."
+    # return "Job listing is empty."
 
 def get_db():
     db = getattr(g, '_database', None)
