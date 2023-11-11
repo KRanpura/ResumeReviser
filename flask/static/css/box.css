@@ -1,8 +1,11 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+
 :root {
     --palette-black: rgba(2,0,36,1);
     --palette-darkblue: rgba(5,4,76,1);
     --palette-navy: rgba(9,9,121,1);
     --palette-light: rgba(3,213,255,1);
+    --palette-white: rgba();
 }
 
 .middle {
@@ -114,4 +117,21 @@ form a {
 
 form a:hover {
     color: #347FC4;
+}
+
+.box {
+    min-width:250px;
+  	max-width:400px;
+    min-height:400px;
+    align-items:center;
+	border-radius:24px;
+	padding:15px;
+	background-color:rgb(226, 223, 223);
+	box-shadow:0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);  
+}
+
+#boxtext {
+    font-family: 'Montserrat', Courier, monospace;
+    text-align: center;
+    color:  black;
 }
