@@ -38,7 +38,7 @@ form {
 }
 
 header{
-  background: fixed;
+  background-attachment: fixed;
   background: linear-gradient(180deg, rgb(59, 46, 193) 0%, rgba(130, 238, 198, 1) 100%);
   position: fixed;
   top: 0;
