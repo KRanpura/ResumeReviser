@@ -1,3 +1,4 @@
 imgs/dev
 flask/__pycache__
 flask/uploads/*
+princeton.db
