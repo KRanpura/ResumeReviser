@@ -101,6 +101,11 @@ header li:hover {
     align-items:center;
 }
 
+.logo_size{
+  min-width: 150%;
+
+}
+
 .home{
   margin: 4rem;
   padding: 4rem;
