@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, request, session, url_for
 from init_db import get_db
 app = Flask(__name__)
 
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -52,14 +53,3 @@ def signup():
         return redirect(url_for("mainpage"))
 
     return render_template("signup.html")
-# @app.route("/signup")
-# def signup():
-#     return render_template("signup.html")
-
-# @app.route("/hello/<name>")
-# def hello(name = None):
-#     return render_template (
-#         "hello.html",
-#         name = name,
-#         date = datetime.now()
-#     )

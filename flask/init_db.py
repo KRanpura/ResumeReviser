@@ -1,4 +1,4 @@
-from operator import methodcaller
+#from operator import methodcaller
 from flask import Flask, session
 from flask import request, render_template, Flask, redirect, url_for, make_response, g
 from os import urandom
@@ -13,15 +13,15 @@ from needlogin import login_required
 #account_sid = os.environ['AC8ef87725499512171f849e7a4beb8dc0']
 
 app = Flask(__name__)
-debug = True
+#debug = True
 app.secret_key = urandom(24)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
+
+#session.init_app(app)
 DATABASE = 'princeton.db'
 UPLOAD_FOLDER = 'UPLOAD_FOLDER'
 
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 def get_db():
     db = getattr(g, "_database", None)
