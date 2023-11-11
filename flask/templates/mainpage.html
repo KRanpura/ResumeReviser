@@ -31,11 +31,35 @@
     <input type="Checkbox" name="Teaching" value="yes">Teaching
     <input type="Checkbox" name="Social Work" value="yes">Social Work
 
+    <div id="matchModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Match Percentage</h2>
+            <p id="matchPercentage"></p>
+        </div>
+    </div>
+
     <script>
-        //JavaScript function to show match percentage in a popup
-       // {% if matPercent is defined %}
-            alert("Resume is a {{ matPercent }}% match with the job listing!");
-     //   {% endif %}
+        document.addEventListener("DOMContentLoaded", function() {
+            {% if matPercent is defined %}
+                var modal = document.getElementById('matchModal');
+                var span = document.getElementsByClassName("close")[0];
+                var matchPercentage = document.getElementById('matchPercentage');
+    
+                modal.style.display = "block";
+                matchPercentage.innerHTML = "Resume is a {{ matPercent }}% match with the job listing!";
+    
+                span.onclick = function() {
+                    modal.style.display = "none";
+                }
+    
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+            {% endif %}
+        });
     </script>
 </body>
 </html>
