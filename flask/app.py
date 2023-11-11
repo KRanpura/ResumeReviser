@@ -38,11 +38,18 @@ def index():
 
 @app.route('/mainpage')
 def mainpage():
-    matPercent = checkKeyWordMatch()
     if 'user_id' not in session:
         return redirect(url_for('login'))
-    
-    return render_template('mainpage.html', matPercent = matPercent)
+
+    matPercent = None
+
+    if request.method == 'POST':
+        job_listing = request.form.get('job_listing')
+        if job_listing:
+            matPercent = checkKeyWordMatch(job_listing)
+            return render_template('mainpage.html', matPercent=matPercent)
+
+    return render_template('mainpage.html', matPercent=matPercent)
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -70,7 +77,7 @@ def upload():
 if __name__ == '__main__':
     app.run(debug=True)
 
-def checkKeyWordMatch():
+def checkKeyWordMatch(job_listing):
     filename = session.get('current_filename')
 
     if filename is None:
@@ -91,28 +98,30 @@ def checkKeyWordMatch():
         with open(txt_path, 'r', encoding='latin-1') as resume_file:
             resume = resume_file.read()
 
-    job_listing = request.form.get('job_listing')
+    # Check if the job_listing is not empty before proceeding
+    if job_listing:
+        # Save job_listing as a new text file
+        job_listing_path = os.path.join('txt', f"{filename}_job_listing.txt")
+        with open(job_listing_path, 'w', encoding='latin-1') as job_listing_file:
+            job_listing_file.write(job_listing)
 
-    # Save job_listing as a new text file
-    job_listing_path = os.path.join('txt', f"{filename}_job_listing.txt")
-    with open(job_listing_path, 'w', encoding='latin-1') as job_listing_file:
-        job_listing_file.write(job_listing)
+        # Use the newly created job_listing file as reference
+        reference_path = job_listing_path
+        reference = job_listing
 
-    # Use the newly created job_listing file as reference
-    reference_path = job_listing_path
-    reference = job_listing
+        # Compare the content of resume and reference
+        compare = [resume, reference]
 
-    # Compare the content of resume and reference
-    compare = [resume, reference]
+        cVect = CountVectorizer()
+        cMatrix = cVect.fit_transform(compare)
+        matPercent = cosine_similarity(cMatrix)[0][1] * 100
+        matPercent = round(matPercent, 2)  # round to two decimal
 
-    cVect = CountVectorizer()
-    cMatrix = cVect.fit_transform(compare)
-    matPercent = cosine_similarity(cMatrix)[0][1] * 100
-    matPercent = round(matPercent, 2)  # round to two decimal
+        print(matPercent)
+        return str(matPercent)
 
-    print(matPercent)
-    return str(matPercent)
-
+    # Return a default value if job_listing is empty
+    return "Job listing is empty."
 
 def get_db():
     db = getattr(g, '_database', None)

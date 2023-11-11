@@ -11,6 +11,13 @@
     <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
         <input type="file" name="pdf_file" accept=".pdf" required>
         <button type="submit">Upload PDF</button>
+        
+        <!-- Include the job listing form fields here -->
+        <h4>Enter a job listing below</h4>
+        <label for="job_listing">Job Listing:</label>
+        <textarea id="job_listing" name="job_listing" rows="10" cols="50"></textarea>
+        <br>
+        <input type="submit" value="Submit">
     </form>
 
     {% if pdf_path %}
@@ -24,14 +31,11 @@
     <input type="Checkbox" name="Teaching" value="yes">Teaching
     <input type="Checkbox" name="Social Work" value="yes">Social Work
 
-
-    <h4>Enter a job listing below</h4>
-    <form method="post">
-        <label for="job_listing">Job Listing:</label>
-        <textarea id="job_listing" name="job_listing" rows="10" cols="50"></textarea>
-        <br>
-        <input type="submit" value="Submit">
-    </form>
-        <h5>Resume is a {{ matPercent }}% match with the job listing!</h5>
+    <script>
+        // JavaScript function to show match percentage in a popup
+        {% if matPercent is defined %}
+            alert("Resume is a {{ matPercent }}% match with the job listing!");
+        {% endif %}
+    </script>
 </body>
 </html>
