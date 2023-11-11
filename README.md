@@ -52,14 +52,14 @@ source env/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
+- Make sure your pip version is up-to-date:
+
+```bash
+pip install --upgrade pip
+```
 
 6. Run the app
 ```bash
 cd flask
 python -m flask run
-```
-<p style="color:yellow">Make sure your pip version is up-to-date:</p>
-
-```bash
-pip install --upgrade pip
 ```
