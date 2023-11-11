@@ -39,7 +39,7 @@ body {
     color:#fff;
 }
 
-.form-signin {
+.form-signin, .form-signup {
     width: 100%;
     padding: 20px;
     max-width: 330px;
@@ -77,6 +77,17 @@ body {
 
 .form-signin .form-header {
     margin-bottom: 20px;
+}
+
+.form-title {
+    font-size:large;
+}
+
+.form-signup label {
+    text-align: left;
+    font-family: 'Montserrat', Courier, monospace;
+    text-align: center;
+    color:  white;
 }
 
 #form-title1 {
