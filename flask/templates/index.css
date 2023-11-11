@@ -1,3 +1,11 @@
+:root {
+  --palette-navy: #155A8E;
+  --palette-light: #8BCDF9;
+  --palette-seasalt: #F9F9F9;
+  --palette-cornsilk: #FFF9D6;
+  --palette-pink: #FFC2D4;
+}
+
 .bg{
     background: -moz-radial-gradient(circle at 50% 50%, rgb(138, 169, 212, 1) 0%, rgba(152, 174, 114, 1) 34%, rgba(255, 213, 181, 1) 63%, rgba(130, 238, 191, 1) 100%);
 
