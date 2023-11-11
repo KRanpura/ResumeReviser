@@ -48,6 +48,7 @@ pip install -r requirements.txt
 
 6. Run the app
 ```bash
+cd flask
 python -m flask run
 ```
 
