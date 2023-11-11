@@ -1,5 +1,5 @@
 from operator import methodcaller
-from flask import session
+from flask import Flask, session
 from flask import request, render_template, Flask, redirect, url_for, make_response, g
 from os import urandom
 import sqlite3
@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 # from pymongo.errors import ConnectionFailure
 import os
 from needlogin import login_required
-from flask_session import Session
+#from flask_session import Session
 
 #account_sid = os.environ['AC8ef87725499512171f849e7a4beb8dc0']
 
@@ -37,31 +37,30 @@ def close_db(exception):
     if db is not None:
         db.close()
 
-@app.route('/', methods=['GET', 'POST'])
-def upload_file():
-    if request.method == 'POST':
-        # Check if the POST request has a file part
-        if 'image-upload' not in request.files:  # Match the HTML form name
-            return redirect(request.url)
+# @app.route('/', methods=['GET', 'POST'])
+# def upload_file():
+#     if request.method == 'POST':
+#         # Check if the POST request has a file part
+#         if 'image-upload' not in request.files:  # Match the HTML form name
+#             return redirect(request.url)
 
-        file = request.files['image-upload']  # Match the HTML form name
+#         file = request.files['image-upload']  # Match the HTML form name
 
-        # If the user does not select a file, the browser sends an empty file
-        if file.filename == '':
-            return redirect(request.url)
+#         # If the user does not select a file, the browser sends an empty file
+#         if file.filename == '':
+#             return redirect(request.url)
 
-        if file:
-            # Ensure the filename is secure (remove unsafe characters)
-            filename = secure_filename(file.filename)
+#         if file:
+#             # Ensure the filename is secure (remove unsafe characters)
+#             filename = secure_filename(file.filename)
 
-            # Save the uploaded file to the specified folder
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+#             # Save the uploaded file to the specified folder
+#             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-            # Optionally, you can return a message indicating the upload was successful
-            return 'File uploaded successfully'
-    else: 
-        return render_template('mainpage.html')
-
+#             # Optionally, you can return a message indicating the upload was successful
+#             return 'File uploaded successfully'
+#     else: 
+#         return render_template('mainpage.html')
 
 
 @app.route("/signup", methods=["GET", "POST"])
