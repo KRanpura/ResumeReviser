@@ -1,8 +1,12 @@
+import PyPDF2
 from flask import Flask, render_template, redirect, request, session, url_for, send_file, make_response, g
 import os
 # from init_db import get_db
 from flask import send_from_directory
 from werkzeug.utils import secure_filename
+
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
 #from operator import methodcaller
 from os import urandom
@@ -34,13 +38,15 @@ def index():
 
 @app.route('/mainpage')
 def mainpage():
-    # if 'user_id' not in session:
-    #     return redirect(url_for('login'))
+    matPercent = checkKeyWordMatch()
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     
-    return render_template('mainpage.html')
+    return render_template('mainpage.html', matPercent = matPercent)
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
+    session['current_filename'] = filename
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.route('/upload', methods=['POST'])
@@ -63,6 +69,49 @@ def upload():
     return render_template('mainpage.html', error=error, filename = None, pdf_path = None)
 if __name__ == '__main__':
     app.run(debug=True)
+
+def checkKeyWordMatch():
+    filename = session.get('current_filename')
+
+    if filename is None:
+        return "Error: No filename in session."
+
+    pdf_path = os.path.join('uploads', filename)
+
+    with open(pdf_path, 'rb') as pdf_file:
+        pdf_reader = PyPDF2.PdfFileReader(pdf_file)
+        x = pdf_reader.numPages
+        page_obj = pdf_reader.getPage(x + 1)
+        text = page_obj.extractText()
+
+        txt_path = os.path.join('txt', f"{filename}.txt")
+        with open(txt_path, "a") as file1:
+            file1.writelines(text)
+
+        with open(txt_path, 'r', encoding='latin-1') as resume_file:
+            resume = resume_file.read()
+
+    job_listing = request.form.get('job_listing')
+
+    # Save job_listing as a new text file
+    job_listing_path = os.path.join('txt', f"{filename}_job_listing.txt")
+    with open(job_listing_path, 'w', encoding='latin-1') as job_listing_file:
+        job_listing_file.write(job_listing)
+
+    # Use the newly created job_listing file as reference
+    reference_path = job_listing_path
+    reference = job_listing
+
+    # Compare the content of resume and reference
+    compare = [resume, reference]
+
+    cVect = CountVectorizer()
+    cMatrix = cVect.fit_transform(compare)
+    matPercent = cosine_similarity(cMatrix)[0][1] * 100
+    matPercent = round(matPercent, 2)  # round to two decimal
+
+    print(matPercent)
+    return str(matPercent)
 
 
 def get_db():
