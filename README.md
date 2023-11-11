@@ -58,3 +58,8 @@ pip install -r requirements.txt
 cd flask
 python -m flask run
 ```
+<p style="color:yellow">Make sure your pip version is up-to-date:</p>
+
+```bash
+pip install --upgrade pip
+```
