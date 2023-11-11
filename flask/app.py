@@ -14,7 +14,6 @@ import sqlite3
 
 from needlogin import login_required
 
-
 app = Flask(__name__)
 app.secret_key = urandom(24)
 app.config["SESSION_PERMANENT"] = False
@@ -47,9 +46,18 @@ def mainpage():
         job_listing = request.form.get('job_listing')
         if job_listing:
             matPercent = checkKeyWordMatch(job_listing)
-            # Render the match_result.html template with the match percentage
-            return render_template('match_result.html', matPercent=matPercent)
-    return render_template('mainpage.html', matPercent=matPercent)
+            
+            # Access feature names from the session
+            feature_names = session.get('feature_names', [])
+
+            # Render the match_result.html template with the match percentage and feature names
+            return render_template('match_result.html', matPercent=matPercent, feature_names=feature_names)
+
+    pdf_path = session.get('current_filename')
+    filename = os.path.basename(pdf_path) if pdf_path else None  
+
+    return render_template('mainpage.html', matPercent=matPercent, pdf_path=pdf_path, filename=filename)
+
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     session['current_filename'] = filename
@@ -71,16 +79,29 @@ def upload():
         file.save(filepath)
         session['current_filename'] = filename  # Save the current filename in the session
 
-        return redirect(url_for('mainpage'))
+        return redirect(url_for('process_form', job_listing=request.form.get('job_listing')), code=307)
+       # return redirect(url_for('mainpage'))
     error = 'Invalid file type' if file else 'No selected file'
     return render_template('mainpage.html', error=error, filename=None, pdf_path=None)
+
+def extract_text_from_pdf(pdf_path, page_number=0):
+    with open(pdf_path, 'rb') as file:
+        pdf_reader = PyPDF2.PdfReader(file)
+        text = pdf_reader.pages[page_number].extract_text()
+    return text
 
 @app.route('/process_form', methods=['POST'])
 def process_form():
     job_listing = request.form.get('job_listing')
+    
     if job_listing:
-        matPercent = checkKeyWordMatch(job_listing)
-        return render_template('mainpage.html', matPercent=matPercent)
+        # Check if file has been uploaded
+        pdf_path = session.get('current_filename')
+        if pdf_path:
+            matPercent = checkKeyWordMatch(job_listing)
+            return render_template('mainpage.html', matPercent=matPercent)
+        else:
+            return render_template('mainpage.html', error='No file uploaded', job_listing=job_listing)
     else:
         return render_template('mainpage.html', error='Job listing is empty')
 
@@ -93,10 +114,11 @@ def checkKeyWordMatch(job_listing):
     pdf_path = os.path.join('uploads', filename)
 
     with open(pdf_path, 'rb') as pdf_file:
-        pdf_reader = PyPDF2.PdfFileReader(pdf_file)
-        x = pdf_reader.numPages
-        page_obj = pdf_reader.getPage(x + 1)
-        text = page_obj.extractText()
+        pdf_reader = PyPDF2.PdfReader(pdf_file)
+        
+        # Assuming you want to extract text from the first page (zero-indexed)
+        page_number = 0
+        text = extract_text_from_pdf(pdf_path, page_number)
 
         if job_listing:
             compare = [text, job_listing]
@@ -106,11 +128,10 @@ def checkKeyWordMatch(job_listing):
         matPercent = cosine_similarity(cMatrix)[0][1] * 100
         matPercent = round(matPercent, 2)  # round to two decimal
 
+        session['feature_names'] = cVect.get_feature_names_out().tolist()
+
         print(matPercent)
         return str(matPercent)
-
-    # Return a default value if job_listing is empty
-    # return "Job listing is empty."
 
 def get_db():
     db = getattr(g, '_database', None)
