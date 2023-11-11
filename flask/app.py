@@ -46,21 +46,21 @@ def uploaded_file(filename):
 @app.route('/upload', methods=['POST'])
 def upload():
     if 'pdf_file' not in request.files or not request.files['pdf_file'].filename:
-        return render_template('mainpage.html', error='No file part')
+        return render_template('mainpage.html', error='No file part', pdf_path = None)
 
     file = request.files['pdf_file']
 
     if file.filename == '':
-        return render_template('mainpage.html', error='No selected file')
+        return render_template('mainpage.html', error='No selected file', filename = None, pdf_path = None)
 
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
-        return render_template('mainpage.html', pdf_path=filepath, filename= filename)
+        return render_template('mainpage.html', pdf_path=filepath, filename= filename, error=None)
 
     error = 'Invalid file type' if file else 'No selected file'
-    return render_template('mainpage.html', error=error)
+    return render_template('mainpage.html', error=error, filename = None, pdf_path = None)
 if __name__ == '__main__':
     app.run(debug=True)
 
