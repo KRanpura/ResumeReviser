@@ -1,13 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
     <title>ResumeReviser</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        var TxtType = function(el, toRotate, period) {
+  this.toRotate = toRotate;
+  this.el = el;
+  this.loopNum = 0;
+  this.period = parseInt(period, 10) || 2000;
+  this.txt = '';
+  this.tick();
+  this.isDeleting = false;
+};
+
+TxtType.prototype.tick = function() {
+  var i = this.loopNum % this.toRotate.length;
+  var fullTxt = this.toRotate[i];
+
+  if (this.isDeleting) {
+  this.txt = fullTxt.substring(0, this.txt.length - 1);
+  } else {
+  this.txt = fullTxt.substring(0, this.txt.length + 1);
+  }
+
+  this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
+
+  var that = this;
+  var delta = 200 - Math.random() * 100;
+
+  if (this.isDeleting) { delta /= 2; }
+
+  if (!this.isDeleting && this.txt === fullTxt) {
+  delta = this.period;
+  this.isDeleting = true;
+  } else if (this.isDeleting && this.txt === '') {
+  this.isDeleting = false;
+  this.loopNum++;
+  delta = 500;
+  }
+
+  setTimeout(function() {
+  that.tick();
+  }, delta);
+};
+
+window.onload = function() {
+  var elements = document.getElementsByClassName('typewrite');
+  for (var i=0; i<elements.length; i++) {
+      var toRotate = elements[i].getAttribute('data-type');
+      var period = elements[i].getAttribute('data-period');
+      if (toRotate) {
+        new TxtType(elements[i], JSON.parse(toRotate), period);
+      }
+  }
+  // INJECT CSS
+  var css = document.createElement("style");
+  css.type = "text/css";
+  css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}";
+  document.body.appendChild(css);
+};
+    </script>
 </head>
-<body class ="bg">
-    <header>
+<body class="center">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="{{ url_for('static', filename='resources/logo.png') }}" alt="" width="30" height="30" class="d-inline-block align-text-top">
+            ResumeReviser
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+    <!-- <header>
         <nav class="navbar">
             <div class="logo">
                 <a href="#"><img class = "logo" src="pic_gif/logo.png" alt="Logo"><a href="#"><h1>ResumeReviser</h1></a></a>
@@ -17,21 +97,28 @@
                 <li><button><a href="{{ url_for('signup') }}">Sign Up</a></button></li>
             </ul>
         </nav>
-    </header>
+    </header> -->
+<div class="container-fluid" style="padding-top: 10%;">
+    <div class="container-fluid">
+        <h1 id="front-text">
+            <a href="" class="typewrite" id="front-text" dataperiod="3000" data-type='["Land More Interviews With ResumeReviser.", "Committed to building your confidence in your resume!"]'>
+                <span class="wrap"></span>
+            </a>
+        </h1>
     </div>
-    <div class="home">
-        <div class="slide-from-left-anim">
-        <h1>Land More Interviews With ResumeReviser</h1>
-        <h3>Committed to building your confidence in your resume!</h3>
-        </div>
-        <img id="gif" class="slide-from-left-anim" src="pic_gif/cat_gif.gif">
-    </div>
-    <div>
-        <h1><a href="#About">About</a></h1>
-<h1> Tired of second-guessing your resume every time you apply to a new job? ResumeReviser is a new and improved AI tool that reviews your existing resume 
-    and makes personalized suggestions based on the specific job listings you want to apply for! Try ResumeReviser today. 
-</h1>   </div>
-    
+    <img class="rounded-circle" style="margin-right:15%" width="300px" height="300px" src="{{url_for('static', filename='resources/cat_gif.gif')}}">    
+</div>
+
+<div>
+    <h1><a href="#About">About</a></h1>
+    <h1> 
+        Tired of second-guessing your resume every time you apply to a new job? ResumeReviser is a new and improved AI tool that reviews your existing resume 
+        and makes personalized suggestions based on the specific job listings you want to apply for! Try ResumeReviser today. 
+    </h1>   
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
 
