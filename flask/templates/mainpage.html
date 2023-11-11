@@ -30,7 +30,6 @@
     <input type="Checkbox" name="Medicine" value="yes">Medicine
     <input type="Checkbox" name="Teaching" value="yes">Teaching
     <input type="Checkbox" name="Social Work" value="yes">Social Work
-
     <div id="matchModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -41,25 +40,27 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            {% if matPercent is defined %}
+            document.addEventListener("DOMContentLoaded", function() {
                 var modal = document.getElementById('matchModal');
                 var span = document.getElementsByClassName("close")[0];
                 var matchPercentage = document.getElementById('matchPercentage');
-    
-                modal.style.display = "block";
-                matchPercentage.innerHTML = "Resume is a {{ matPercent }}% match with the job listing!";
-    
+        
+                // Check if the modal should be displayed based on the presence of matPercent
+                {% if matPercent is defined %}
+                    modal.style.display = "block";
+                    matchPercentage.innerHTML = "Resume is a {{ matPercent }}% match with the job listing!";
+                {% endif %}
+        
                 span.onclick = function() {
                     modal.style.display = "none";
                 }
-    
+        
                 window.onclick = function(event) {
                     if (event.target == modal) {
                         modal.style.display = "none";
                     }
                 }
-            {% endif %}
-        });
+            });
     </script>
 </body>
 </html>

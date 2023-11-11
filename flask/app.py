@@ -36,7 +36,7 @@ def allowed_file(filename):
 def index():
     return render_template("index.html")
 
-@app.route('/mainpage')
+@app.route('/mainpage', methods=['GET', 'POST'])
 def mainpage():
     if 'user_id' not in session:
         return redirect(url_for('login'))
@@ -47,10 +47,9 @@ def mainpage():
         job_listing = request.form.get('job_listing')
         if job_listing:
             matPercent = checkKeyWordMatch(job_listing)
-            return render_template('mainpage.html', matPercent=matPercent)
-
+            # Render the match_result.html template with the match percentage
+            return render_template('match_result.html', matPercent=matPercent)
     return render_template('mainpage.html', matPercent=matPercent)
-
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     session['current_filename'] = filename
@@ -72,8 +71,7 @@ def upload():
         file.save(filepath)
         session['current_filename'] = filename  # Save the current filename in the session
 
-        return render_template('mainpage.html', pdf_path=filepath, filename=filename, error=None)
-
+        return redirect(url_for('mainpage'))
     error = 'Invalid file type' if file else 'No selected file'
     return render_template('mainpage.html', error=error, filename=None, pdf_path=None)
 
