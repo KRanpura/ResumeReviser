@@ -1,0 +1,40 @@
+<!-- dashboard.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Add your head content here -->
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!-- Your navigation bar content here -->
+    </nav>
+
+    <h1>Hi {{ user.first_name }}, Dashboard</h1>
+
+    {% if submissions %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Filename</th>
+                    <th>Job Listing</th>
+                    <th>Match Percentage</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for submission in submissions %}
+                    <tr>
+                        <td>{{ submission.pdf_filename }}</td>
+                        <td>{{ submission.job_listing }}</td>
+                        <td>{{ submission.match_percentage }}%</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No submissions found.</p>
+    {% endif %}
+
+    <!-- Add your script imports and inline scripts here -->
+</body>
+</html>

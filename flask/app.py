@@ -47,6 +47,24 @@ def logout():
     session.pop('user_id', None)
     return redirect(url_for('index')) 
 
+@app.route('/dashboard')
+def dashboard():
+    user_id = session['user_id']
+    db = get_db()
+    cursor = db.cursor()
+
+    # Retrieve user information from the database based on user_id
+    cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
+    user = cursor.fetchone()
+
+    # Retrieve all previous submissions for the user
+    cursor.execute("SELECT * FROM resumeResult WHERE user_id = ?", (user_id,))
+    submissions = cursor.fetchall()
+
+    return render_template('dashboard.html', user=user, submissions=submissions)
+
+    
+
 @app.route('/mainpage', methods=['GET', 'POST'])
 def mainpage():
     if 'user_id' not in session:
@@ -141,7 +159,12 @@ def process_form():
     filename = os.path.basename(pdf_path) if pdf_path else None
 
     if job_listing and pdf_path:
-        matPercent = checkKeyWordMatch(job_listing)
+        matPercent, matching_words = checkKeyWordMatch(job_listing)        
+        cursor.execute(
+            "INSERT INTO resumeResult (user_id, pdf_filename, job_listing, match_percentage) VALUES (?, ?, ?, ?)",
+            (user_id, filename, job_listing, matPercent)
+        )
+        db.commit()
         return render_template('mainpage.html', user=user, matPercent=matPercent, pdf_path=pdf_path, filename=filename)
     else:
         error_message = 'No file uploaded' if not pdf_path else 'Job listing is empty'
