@@ -10,6 +10,14 @@
 
 **An AI tool that helps revise and review resumes while offering tips based on job descriptions!**
 
+Built with:
+
+    <img src="https://assets.cdn.prod.twilio.com/original_images/flask-oauth.png" alt="Logo"  width="200" height="200">
+    <img src="https://sqlite.org/forum/logo?id=603c155e" alt="Logo"  width="200" height="200">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/800px-Python-logo-notext.svg.png" alt="Logo" width="200" height="200">
+    
+
+
 <p align="center">
 <i>Built for HackPrinceton Fall 2023</i>
 <p>
