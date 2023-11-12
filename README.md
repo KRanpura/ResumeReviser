@@ -3,7 +3,7 @@
 # ResumeReviser
 
 <div style="text-align: center;">
-    <img src="imgs/magic_resume.png" alt="Logo" style="max-width: 50%; height: auto;">
+    <img src="imgs/magic_resume.png" alt="Logo"  width="300" height="300">
 </div>
 
 </div>
