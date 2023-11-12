@@ -37,10 +37,31 @@ def allowed_file(filename):
 def index():
     return render_template("index.html")
 
+@app.route("/suggestions")
+def suggestions():
+    return render_template("suggestions.html")
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    # Clear the user session
+    session.pop('user_id', None)
+    return redirect(url_for('index')) 
+
 @app.route('/mainpage', methods=['GET', 'POST'])
 def mainpage():
     if 'user_id' not in session:
         return redirect(url_for('login'))
+    
+
+    if 'user_id' in session:
+        user_id = session['user_id']
+        db = get_db()
+        cursor = db.cursor()
+
+        # Retrieve user information from the database based on user_id
+        cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
+        user = cursor.fetchone()
+
 
     matPercent = None
     pdf_images = None
@@ -63,7 +84,7 @@ def mainpage():
     pdf_path = session.get('current_filename')
     filename = os.path.basename(pdf_path) if pdf_path else None
 
-    return render_template('mainpage.html', matPercent=matPercent, pdf_path=pdf_path, filename=filename, pdf_images=pdf_images)
+    return render_template('mainpage.html', user=user, matPercent=matPercent, pdf_path=pdf_path, filename=filename, pdf_images=pdf_images)
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -104,6 +125,16 @@ def extract_text_from_pdf(pdf_path, page_number=0):
 
 @app.route('/process_form', methods=['POST'])
 def process_form():
+    
+    if 'user_id' in session:
+        user_id = session['user_id']
+        db = get_db()
+        cursor = db.cursor()
+
+        # Retrieve user information from the database based on user_id
+        cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
+        user = cursor.fetchone()
+
     job_listing = request.form.get('job_listing')
 
     pdf_path = session.get('current_filename')
@@ -111,7 +142,7 @@ def process_form():
 
     if job_listing and pdf_path:
         matPercent = checkKeyWordMatch(job_listing)
-        return render_template('mainpage.html', matPercent=matPercent, pdf_path=pdf_path, filename=filename)
+        return render_template('mainpage.html', user=user, matPercent=matPercent, pdf_path=pdf_path, filename=filename)
     else:
         error_message = 'No file uploaded' if not pdf_path else 'Job listing is empty'
         return render_template('mainpage.html', error=error_message, pdf_path=pdf_path, filename=filename)

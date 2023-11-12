@@ -4,10 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
     <title>Resume</title>
 </head>
 <body>
-    <h1>Hi User, Upload A Resume</h1>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/mainpage">
+				<img src="{{ url_for('static', filename='resources/logo.png') }}" alt="" width="30" height="30" class="d-inline-block align-text-top">
+				ResumeReviser
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="/suggestions">Suggestions</a>
+					</li>
+				</ul>
+				<ul class="navbar-nav ml-auto"> 
+					{% if user %}
+					<form class="form-inline" action="{{ url_for('logout') }}" method="post">
+						<button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
+					</form>
+					{% endif %}
+				</ul>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <h1>Hi {{ user.first_name }}, Upload A Resume</h1>
     <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
         <input type="file" name="pdf_file" accept=".pdf" required>
         <br>
@@ -27,10 +55,12 @@
             <span class="close">&times;</span>
             <h2>Match Percentage</h2>
             <p id="matchPercentage"></p>
-            <p href="suggestions.html" id="suggestions"></p>
+            <a href="/suggestions" id="suggestions">Suggestions for future career</a>
         </div>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var modal = document.getElementById('matchModal');
@@ -41,7 +71,7 @@
             {% if matPercent is defined %}
                 modal.style.display = "block";
                 matchPercentage.innerHTML = "Resume is a {{ matPercent }}% match with the job listing!";
-                suggestions.innerHTML = "Suggestions for future career:";
+                suggestions.innerHTML = "Suggestions for future career";
             {% endif %}
     
             span.onclick = function() {

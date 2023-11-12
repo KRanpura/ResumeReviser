@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+</style>
+
+<head>
+	<title>Suggestions</title>
+	<link rel="stylesheet" href="{{url_for('static', filename='css/form.css')}}">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+</style>
+
+<head>
+	<title>Login</title>
+	<link rel="stylesheet" href="{{url_for('static', filename='css/form.css')}}">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body class="text-center">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/mainpage">
+                <img src="{{ url_for('static', filename='resources/logo.png') }}" alt="" width="30" height="30" class="d-inline-block align-text-top">
+                ResumeReviser
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/suggestions">Suggestions</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    {% if user %}
+                    <form class="form-inline" action="{{ url_for('logout') }}" method="post">
+                        <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
+                    </form>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid" style="padding-top: 10%;">
+        <form method="post" class="form-signin" style="margin-top:-100px">
+            <div class="container">
+                <!-- ... your existing form content ... -->
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="promptRadio" id="prompt1" value="prompt1">
+                    <label class="form-check-label" for="prompt1">Prompt 1</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="promptRadio" id="prompt2" value="prompt2">
+                    <label class="form-check-label" for="prompt2">Prompt 2</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="promptRadio" id="prompt3" value="prompt3">
+                    <label class="form-check-label" for="prompt3">Prompt 3</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="promptRadio" id="prompt4" value="prompt4">
+                    <label class="form-check-label" for="prompt4">Prompt 4</label>
+                </div>
+                <div id="promptContainer">
+                    <!-- Prompt content will be displayed here -->
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Add an event listener to handle radio button changes
+            document.querySelectorAll('input[name="promptRadio"]').forEach(function(radio) {
+                radio.addEventListener('change', function() {
+                    // Call the function to display the corresponding prompt
+                    displayPrompt(this.value);
+                });
+            });
+        });
+
+        function displayPrompt(promptValue) {
+            // Define your prompts based on the selected radio button
+            var prompts = {
+                'prompt1': 'This is prompt 1 content.',
+                'prompt2': 'This is prompt 2 content.',
+                'prompt3': 'This is prompt 3 content.',
+                'prompt4': 'This is prompt 4 content.'
+            };
+
+            // Get the container where the prompt will be displayed
+            var promptContainer = document.getElementById('promptContainer');
+
+            // Display the corresponding prompt content
+            promptContainer.innerHTML = prompts[promptValue];
+        }
+    </script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
