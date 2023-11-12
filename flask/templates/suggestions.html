@@ -44,8 +44,8 @@
                     <div class="dropdown-menu" aria-labelledby="promptDropdown">
                         <a class="dropdown-item" href="#" data-prompt="Software Developer">Software Developer</a>
                         <a class="dropdown-item" href="#" data-prompt="Teacher">Teacher</a>
-                        <a class="dropdown-item" href="#" data-prompt="Doctor">Doctor</a>
-                        <a class="dropdown-item" href="#" data-prompt="Lawyer">Lawyer</a>
+                        <a class="dropdown-item" href="#" data-prompt="Medical Physician">Medical Physician</a>
+                        <a class="dropdown-item" href="#" data-prompt="Attorney">Attorney</a>
                     </div>
                 </div>
                 <div id="promptContainer">
@@ -70,18 +70,28 @@
 
         function displayPrompt(promptValue) {
             // Define your prompts based on the selected dropdown item
-            var prompts = {
-                'prompt1': 'This is prompt 1 content.',
-                'prompt2': 'This is prompt 2 content.',
-                'prompt3': 'This is prompt 3 content.',
-                'prompt4': 'This is prompt 4 content.'
+            var path_to_pdfs = {
+                'Software Developer': 'static/resumes/soft.pdf',
+                'Teacher': 'static/resumes/teacher.pdf',
+                'Medical Physician': 'static/resumes/doctor.pdf',
+                'Attorney': 'static/resumes/attorney.pdf'
             };
 
             // Get the container where the prompt will be displayed
             var promptContainer = document.getElementById('promptContainer');
 
+            // Create an iframe element
+            var iframe = document.createElement('iframe');
+            iframe.src = path_to_pdfs[promptValue];
+            iframe.width = '200%'; // Adjust the width as needed
+            iframe.height = '1000px'; // Adjust the height as needed
+            iframe.style.cssText = 'width: 200%; height: 1000px; margin-left: 0; margin-top: 20px;';
+
+            // Clear previous content and append the iframe
+            promptContainer.innerHTML = '';
+            promptContainer.appendChild(iframe);
             // Display the corresponding prompt content
-            promptContainer.innerHTML = prompts[promptValue];
+            //promptContainer.innerHTML = path_to_pdfs[promptValue];
         }
     </script>
 </body>
