@@ -12,10 +12,10 @@
 
 Built with:
 
-    <img src="https://assets.cdn.prod.twilio.com/original_images/flask-oauth.png" alt="Logo"  width="200" height="200">
-    <img src="https://sqlite.org/forum/logo?id=603c155e" alt="Logo"  width="200" height="200">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/800px-Python-logo-notext.svg.png" alt="Logo" width="200" height="200">
-    
+*Flask
+*Python
+*Sqlite3
+*SQL 
 
 
 <p align="center">
