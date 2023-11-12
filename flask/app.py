@@ -242,7 +242,10 @@ def signup():
         email = request.form.get("email")
         passw = request.form.get("passw")
         first_name = request.form.get("first_name")
+        first_name = first_name[0].upper() + first_name[1:]
         last_name = request.form.get("last_name")
+        last_name = last_name[0].upper() + last_name[1:]
+
 
         db = get_db()
         cursor = db.cursor()
