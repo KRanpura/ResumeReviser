@@ -1,29 +1,24 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro&family=Literata" rel="stylesheet">
+
 <div align=center>
 
-# ResumeReviser
 
-<div style="text-align: center;">
-    <img src="imgs/magic_resume.png" alt="Logo"  width="300" height="300">
+<div style="text-align: center; background: ; width:300px;">
+    <img src="imgs/magic_resume_dark.png" alt="Logo"  width="300" height="300">
+<h1 style="color:black;font-family:'Crimson Pro'">ResumeReviser</h1>
 </div>
 
 </div>
 
 **An AI tool that helps revise and review resumes while offering tips based on job descriptions!**
 
-Built with:
-
-*Flask
-*Python
-*Sqlite3
-*SQL 
-
-
 <p align="center">
 <i>Built for HackPrinceton Fall 2023</i>
 <p>
 
 ![hackprinceton banner](imgs/hackprinceton_banner.png)
-
 
 <div align="center">
 
@@ -75,3 +70,10 @@ pip install --upgrade pip
 cd flask
 python -m flask run
 ```
+
+### Technologies
+- Flask
+- Python
+- Sqlite3
+- SQL
+- Bootstrap
