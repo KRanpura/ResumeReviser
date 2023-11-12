@@ -12,9 +12,19 @@
 html,
 body {
     height: 100%;
+    /* global 94%+ browsers support */
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, 
+    var(--palette-black) 0%, 
+    var(--palette-darkblue) 9%, 
+    var(--palette-navy) 29%, 
+    var(--palette-light) 100%);
+    background-size: 100% 200%;
+    /* animation: gradient 8s ease infinite; */
+    color:#fff;
 }
 
-body {
+body .form-signin {
     display: -ms-flexbox;
     display: -webkit-box;
     display: flex;
@@ -26,17 +36,6 @@ body {
     justify-content: center;
     padding-top: 40px;
     padding-bottom: 40px;
-
-    /* global 94%+ browsers support */
-    background: rgb(2,0,36);
-    background: linear-gradient(90deg, 
-    var(--palette-black) 0%, 
-    var(--palette-darkblue) 9%, 
-    var(--palette-navy) 29%, 
-    var(--palette-light) 100%);
-    background-size: 100% 200%;
-    /* animation: gradient 8s ease infinite; */
-    color:#fff;
 }
 
 .form-signin, .form-signup {

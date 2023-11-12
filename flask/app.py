@@ -4,6 +4,8 @@ import os
 # from init_db import get_db
 from flask import send_from_directory
 from werkzeug.utils import secure_filename
+#from pdf2image import convert_from_path
+
 
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -41,27 +43,37 @@ def mainpage():
         return redirect(url_for('login'))
 
     matPercent = None
+    pdf_images = None
 
     if request.method == 'POST':
         job_listing = request.form.get('job_listing')
         if job_listing:
             matPercent = checkKeyWordMatch(job_listing)
-            
+
             # Access feature names from the session
             feature_names = session.get('feature_names', [])
 
-            # Render the match_result.html template with the match percentage and feature names
+            # Convert the PDF to images
+            pdf_path = session.get('current_filename')
+            #pdf_images = convert_pdf_to_images(pdf_path)
+
+            # Render the match_result.html template with the match percentage, feature names, and PDF images
             return render_template('match_result.html', matPercent=matPercent, feature_names=feature_names)
 
     pdf_path = session.get('current_filename')
-    filename = os.path.basename(pdf_path) if pdf_path else None  
+    filename = os.path.basename(pdf_path) if pdf_path else None
 
-    return render_template('mainpage.html', matPercent=matPercent, pdf_path=pdf_path, filename=filename)
+    return render_template('mainpage.html', matPercent=matPercent, pdf_path=pdf_path, filename=filename, pdf_images=pdf_images)
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     session['current_filename'] = filename
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+#def convert_pdf_to_images(pdf_path):
+    #images = convert_from_path(pdf_path)
+   # return images
+
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -93,17 +105,17 @@ def extract_text_from_pdf(pdf_path, page_number=0):
 @app.route('/process_form', methods=['POST'])
 def process_form():
     job_listing = request.form.get('job_listing')
-    
-    if job_listing:
-        # Check if file has been uploaded
-        pdf_path = session.get('current_filename')
-        if pdf_path:
-            matPercent = checkKeyWordMatch(job_listing)
-            return render_template('mainpage.html', matPercent=matPercent)
-        else:
-            return render_template('mainpage.html', error='No file uploaded', job_listing=job_listing)
+
+    pdf_path = session.get('current_filename')
+    filename = os.path.basename(pdf_path) if pdf_path else None
+
+    if job_listing and pdf_path:
+        matPercent = checkKeyWordMatch(job_listing)
+        return render_template('mainpage.html', matPercent=matPercent, pdf_path=pdf_path, filename=filename)
     else:
-        return render_template('mainpage.html', error='Job listing is empty')
+        error_message = 'No file uploaded' if not pdf_path else 'Job listing is empty'
+        return render_template('mainpage.html', error=error_message, pdf_path=pdf_path, filename=filename)
+
 
 def checkKeyWordMatch(job_listing):
     filename = session.get('current_filename')

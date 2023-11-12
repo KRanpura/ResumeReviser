@@ -10,36 +10,24 @@
     <h1>Hi User, Upload A Resume</h1>
     <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
         <input type="file" name="pdf_file" accept=".pdf" required>
-        <!--<button type="submit">Upload PDF</button>-->
-        
-        <!-- Include the job listing form fields here -->
-        <form action="{{ url_for('process_form') }}" method="post">
-            <h4>Enter a job listing below</h4>
-            <label for="job_listing">Job Listing:</label>
-            <textarea id="job_listing" name="job_listing" rows="10" cols="50"></textarea>
-            <br>
-            <input type="submit" value="Submit">
-        </form>
+        <br>
+        <h4>Enter a job listing below</h4>
+        <label for="job_listing">Job Listing:</label>
+        <textarea id="job_listing" name="job_listing" rows="10" cols="50"></textarea>
+        <br>
+        <input type="submit" value="Upload and Process">
     </form>
 
     {% if pdf_path %}
         <iframe src="{{ url_for('uploaded_file', filename=filename) }}" width="800" height="600" style="border: none;"></iframe>
     {% endif %}
 
-    <!-- <h4>Select career types you are interested in.</h4>
-    <form action="#" method="post">
-        <input type="Checkbox" name="career_type" value="Computer Science">Computer Science
-        <input type="Checkbox" name="career_type" value="Education">Marketing
-        <input type="Checkbox" name="career_type" value="Medicine">Medicine
-        <input type="Checkbox" name="career_type" value="Teaching">Teaching
-        <input type="Checkbox" name="career_type" value="Social Work">Social Work
-    </form> -->
-
     <div id="matchModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Match Percentage</h2>
             <p id="matchPercentage"></p>
+            <p href="suggestions.html" id="suggestions"></p>
         </div>
     </div>
 
@@ -53,6 +41,7 @@
             {% if matPercent is defined %}
                 modal.style.display = "block";
                 matchPercentage.innerHTML = "Resume is a {{ matPercent }}% match with the job listing!";
+                suggestions.innerHTML = "Suggestions for future career:";
             {% endif %}
     
             span.onclick = function() {
