@@ -2,6 +2,10 @@
 
 # ResumeReviser
 
+![Logo](imgs/magic_resume_dark.png)
+![Logo](imgs/magic_resume.png)
+
+
 </div>
 
 **An AI tool that helps revise and review resumes while offering tips based on job descriptions!**
