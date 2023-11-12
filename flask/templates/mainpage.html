@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>Resume</title>
 </head>
 <style>
@@ -15,19 +15,71 @@
     }
     .container {
         padding-top: 5%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
     .intro {
         text-align: center;
         font-family: "Crimson Pro";
-        padding-top: 10%;
+        padding-top: 7%;
     }
     .modal-content {
         color: black; /* Set text color to black for the modal content */
     }
-    #job_listing {
-
+    /* Container styles */
+    .main-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
     }
-    /* Add more specific styles for other elements if needed */
+
+    /* Form and PDF preview container */
+    .container {
+        display: flex;
+        flex-direction: row; /* Updated to row to place items next to each other */
+        align-items: stretch;
+        width: 80%; /* Adjust as needed */
+        margin: 20px;
+    }
+
+    /* Form styles */
+    form {
+        display: flex;
+        flex-direction: column;
+        width: 50%; /* Adjust as needed */
+        margin-right: 20px; /* Add margin for spacing */
+    }
+
+    /* File input styles */
+    input[type="file"] {
+        margin-bottom: 10px;
+    }
+
+    /* Textarea styles */
+    textarea {
+        width: 100%; /* Fill the available width */
+        height: 150px; /* Set a fixed height or adjust as needed */
+        resize: none; /* Disable textarea resizing */
+    }
+
+    /* PDF preview styles */
+    .pdf-preview {
+        flex: 1;
+        padding: 20px;
+        background-color: #f0f0f0;
+        overflow: auto; /* Enable scrolling if content overflows */
+        height: 700px;
+    }
+
+    /* Iframe styles */
+    iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
 </style>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav-text">
@@ -59,64 +111,104 @@
 			</div>
 		</div>
 	</nav>
-    <h1 class="intro">Hi {{ user.first_name }}, let's upload your resume!</h1>
-    <div class="container">
-    <div class="row">
-    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
-        <input type="file" name="pdf_file" accept=".pdf" required>
-        <br>
-        <h4>Enter a job listing below</h4>
-        <label for="job_listing">Job Listing:</label>
-        <textarea id="job_listing" name="job_listing" rows="10" cols="50"></textarea>
-        <br>
-        <input type="submit" value="Upload and Process">
-    </form>
-    </div>
-    <div class="col">
-    {% if pdf_path %}
-        <iframe src="{{ url_for('uploaded_file', filename=filename) }}" width="800" height="600" style="border: none;"></iframe>
-    {% endif %}
 
-    <div id="matchModal" class="modal">
+    <h1 class="intro">Hi {{ user.first_name }}, let's upload your resume!</h1>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Form and PDF preview container -->
+        <div class="container">
+            
+            <!-- Form with Bootstrap styling -->
+            <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+                <h4>Enter the job listing below:</h4>
+                <textarea id="job_listing" name="job_listing" rows="10" cols="50" class="form-control"></textarea>
+            
+                <div class="input-group mt-3">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="pdf_file" name="pdf_file" accept=".pdf" required>
+                        <label class="custom-file-label" for="pdf_file">Choose File</label>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit" id="uploadBtn" disabled>Upload and Process</button>
+                    </div>
+                </div>
+            </form>
+            
+            <script>
+                $(document).ready(function () {
+                    // Disable the button initially
+                    $('#uploadBtn').prop('disabled', true);
+                
+                    // Enable the button when both file and textarea have content
+                    $('#pdf_file, #job_listing').on('input change', function () {
+                        var fileSelected = $('#pdf_file').val() !== '';
+                        var textEntered = $('#job_listing').val().trim() !== '';
+                    
+                        // Enable the button if both conditions are met
+                        $('#uploadBtn').prop('disabled', !(fileSelected && textEntered));
+                    
+                        // Update the "Choose File" label with the selected file's name
+                        if (fileSelected) {
+                            var fileName = $('#pdf_file')[0].files[0].name;
+                            $('.custom-file-label').text(fileName);
+                        } else {
+                            // If no file is selected, revert to the default label
+                            $('.custom-file-label').text('Choose File');
+                        }
+                    });
+                });
+            </script>
+
+            <!-- PDF Preview -->
+            <div class="pdf-preview">
+                {% if pdf_path %}
+                    <iframe src="{{ url_for('uploaded_file', filename=filename) }}" style="border: none;"></iframe>
+                {% endif %}
+            </div>
+            
+        </div>
+    </div>
+
+        <div id="matchModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Match Percentage</h2>
             <p id="matchPercentage"></p>
-            <p id ="matchingWords"></p>
+            <p id="matchingWords"></p>
             <a href="/suggestions" id="suggestions">Suggestions for future career</a>
         </div>
     </div>
-    </div>
-    </div>
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             var modal = document.getElementById('matchModal');
             var span = document.getElementsByClassName("close")[0];
             var matchPercentage = document.getElementById('matchPercentage');
             var matchingWords = document.getElementById('matchingWords'); // Add an element to display matching words
-        
+
             // Check if the modal should be displayed based on the presence of matPercent
             {% if matPercent is defined %}
                 modal.style.display = "block";
                 matchPercentage.innerHTML = "Resume is a {{ matPercent[0] }}% match with the job listing!";
-                
+
                 // Check if matching words are available
                 {% if matPercent[1] is defined %}
                     // Use the join method in Python to concatenate list elements into a string
                     matchingWords.innerHTML = "Matching Words: " + "{{ ', '.join(matPercent[1]) }}";
                 {% endif %}
-                
+
                 suggestions.innerHTML = "Suggestions for future career";
             {% endif %}
-        
-            span.onclick = function() {
+
+            span.onclick = function () {
                 modal.style.display = "none";
             }
-        
-            window.onclick = function(event) {
+
+            window.onclick = function (event) {
                 if (event.target == modal) {
                     modal.style.display = "none";
                 }
@@ -125,3 +217,4 @@
     </script>
 </body>
 </html>
+
