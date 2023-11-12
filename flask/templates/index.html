@@ -64,9 +64,28 @@ window.onload = function() {
   document.body.appendChild(css);
 };
     </script>
+<style>
+    .header {
+        font-family: 'Crimson Pro';
+        text-align: center;
+        color: white;
+        padding-top: 20%;
+    }
+    .header h2 {
+        padding-top: 10px;
+        padding-left: 100px;
+        padding-right: 100px;
+        color: rgb(224, 224, 226);
+    }
+    .about {
+        color:  aliceblue;
+        font-family: 'Crimson Pro';
+        padding-top: 10%;
+    }
+</style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav-text">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav-text" style="position:fixed;">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="/">
 				<img src="{{ url_for('static', filename='resources/magic_resume_dark.png') }}" alt="" width="30" height="30" class="d-inline-block align-text-top">
@@ -77,6 +96,9 @@ window.onload = function() {
 			</button>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/dashboard">Dashboard</a>
+                </li>
 				<li class="nav-item">
 					<a class="nav-link" aria-current="page" href="/login">Login</a>
 				</li>
@@ -88,6 +110,13 @@ window.onload = function() {
 		</div>
 	</nav>
     <div class="container">
+    <div class="header">
+        <img class="rounded mx-auto d-block" width = 220px length = 220px src="{{ url_for('static', filename='resources/magic_resume.png') }}">
+        <h1 style="padding-top:10px">Crafting Success, One Resume at a Time</h1>
+        <h2>Navigate your career journey with confidence by having your resume 
+            reviewed by ResumeReviewer, where we ensure your professional story 
+            is polished and ready to make a lasting impression.</h2>
+    </div>
     <div class="content" style="padding-top: 10%;">
         <div class="container-fluid">
         <h1 id="front-text">
@@ -98,9 +127,8 @@ window.onload = function() {
         </div>
         <img class="rounded-circle border border-light" width="300px" height="300px" src="{{url_for('static', filename='resources/cat_gif.gif')}}">    
     </div>
-
-    <div class="content">
-        <h1>About</h1>
+    <div class="about">
+        <h1 style="text-align: center;">About</h1>
         <h1> 
             Tired of second-guessing your resume every time you apply to a new job? ResumeReviser is a new and improved AI tool that reviews your existing resume 
             and makes personalized suggestions based on the specific job listings you want to apply for! Try ResumeReviser today. 
