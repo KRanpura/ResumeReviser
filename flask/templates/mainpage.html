@@ -134,7 +134,7 @@
                     </div>
                 </div>
             </form>
-            
+
             <script>
                 $(document).ready(function () {
                     // Disable the button initially
@@ -170,7 +170,7 @@
         </div>
     </div>
 
-        <div id="matchModal" class="modal">
+    <!-- <div id="matchModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Match Percentage</h2>
@@ -178,43 +178,51 @@
             <p id="matchingWords"></p>
             <a href="/suggestions" id="suggestions">Suggestions for future career</a>
         </div>
-    </div>
+    </div> -->
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            var modal = document.getElementById('matchModal');
-            var span = document.getElementsByClassName("close")[0];
+            var matchModal = new bootstrap.Modal(document.getElementById('matchModal'));
             var matchPercentage = document.getElementById('matchPercentage');
-            var matchingWords = document.getElementById('matchingWords'); // Add an element to display matching words
-
+            var matchingWords = document.getElementById('matchingWords');
+    
             // Check if the modal should be displayed based on the presence of matPercent
             {% if matPercent is defined %}
-                modal.style.display = "block";
+                matchModal.show();
                 matchPercentage.innerHTML = "Resume is a {{ matPercent[0] }}% match with the job listing!";
-
+    
                 // Check if matching words are available
                 {% if matPercent[1] is defined %}
                     // Use the join method in Python to concatenate list elements into a string
                     matchingWords.innerHTML = "Matching Words: " + "{{ ', '.join(matPercent[1]) }}";
                 {% endif %}
-
-                suggestions.innerHTML = "Suggestions for future career";
             {% endif %}
-
-            span.onclick = function () {
-                modal.style.display = "none";
-            }
-
-            window.onclick = function (event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
-                }
-            }
         });
     </script>
+    
+    <!-- Modal HTML -->
+    <div class="modal fade" id="matchModal" tabindex="-1" role="dialog" aria-labelledby="matchModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="matchModalLabel">Notification</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="matchPercentage"></p>
+                    <p id="matchingWords"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
 

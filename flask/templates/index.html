@@ -147,8 +147,10 @@ window.onload = function() {
     <div class="container">
         <h1 class="text-center">About Us</h1>
         <p class="lead text-center">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget turpis a elit varius vehicula.
-            Integer ut neque rhoncus, ultricies ex vel, auctor arcu. Integer nec nulla ut ligula convallis fermentum.
+            We are all students who major in computer science at Rutgers University. We set out with
+            the main goal of a providing a tool that would help people independently gague the
+            effectiveness of their resume. In that process we found the struggles of full stack
+            development!
         </p>
     </div>
 </div>
@@ -160,30 +162,30 @@ window.onload = function() {
             <!-- Member 1 -->
             <div class="col-md-4">
                 <div class="member-card">
-                    <img src="member1.jpg" alt="Member 1" class="member-img">
-                    <h3>John Doe</h3>
-                    <p>Co-Founder</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <img src="{{url_for('static', filename='resources/mugshots/khushi.jpg')}}" alt="Member 1" class="member-img">
+                    <h3>Kushi</h3>
+                    <p>Founder</p>
+                    <p>Likes to take naps sometimes, but is a weapon of programmin prowess once awoken.</p>
                 </div>
             </div>
 
             <!-- Member 2 -->
             <div class="col-md-4">
                 <div class="member-card">
-                    <img src="member2.jpg" alt="Kusum Gandham" class="member-img">
+                    <img src="{{url_for('static', filename='resources/mugshots/kusum.jpg')}}" alt="Kusum Gandham" class="member-img">
                     <h3>Kusum Gandham</h3>
                     <p>Backend Developer</p>
-                    <p>Notable for her ability to problem solve and squash bugs, Kusum develops the backend of the app, as well as the schemas for the database.</p>
+                    <p>Notable for her ability to problem solve and squash bugs, Kusum develops the backend of the app, as well as the schemas for the database. Also is Elian's mentor.</p>
                 </div>
             </div>
 
             <!-- Member 3 -->
             <div class="col-md-4">
                 <div class="member-card">
-                    <img src="member3.jpg" alt="Member 3" class="member-img">
-                    <h3>Bob Johnson</h3>
-                    <p>Marketing Specialist</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <img src="{{url_for('static', filename='resources/mugshots/elian.jpg')}}" alt="Member 3" class="member-img">
+                    <h3>Elian Deogracia-Brito</h3>
+                    <p>Front End Developer</p>
+                    <p>Enjoy the challenges programming brings on. Will participate in hackathon despite homework due.</p>
                 </div>
             </div>
         </div>
