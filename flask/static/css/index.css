@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat");
 @import url("https://fonts.googleapis.com/css2?family=Crimson+Pro&family=Literata");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300&display=swap");
 @import url("typewriter.css");
 
 :root {
@@ -75,12 +76,14 @@ body {
 }
 
 #front-text {
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Jetbrains Mono';
   color:  white;
   margin-top: 10px;
+  margin-bottom: -100px;
   max-width: 500px;
   max-height: 500px;
-  font-style:italic;
+  font-size: 14;
+  text-align: center;
 }
 
 #nav-text {

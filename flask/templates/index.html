@@ -65,6 +65,7 @@ window.onload = function() {
 };
     </script>
 <style>
+    @import url();
     .header {
         font-family: 'Crimson Pro';
         text-align: center;
@@ -77,10 +78,24 @@ window.onload = function() {
         padding-right: 100px;
         color: rgb(224, 224, 226);
     }
-    .about {
-        color:  aliceblue;
+    #about {
+        background-color:white;
         font-family: 'Crimson Pro';
         padding-top: 10%;
+    }
+    .content h1 {
+        height: 300px;
+        overflow: hidden;
+    }
+    .member-card {
+        text-align: center;
+        margin: 20px;
+    }
+
+    .member-img {
+        border-radius: 50%;
+        max-width: 150px;
+        margin-bottom: 15px;
     }
 </style>
 </head>
@@ -96,9 +111,6 @@ window.onload = function() {
 			</button>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="/dashboard">Dashboard</a>
-                </li>
 				<li class="nav-item">
 					<a class="nav-link" aria-current="page" href="/login">Login</a>
 				</li>
@@ -117,7 +129,7 @@ window.onload = function() {
             reviewed by ResumeReviewer, where we ensure your professional story 
             is polished and ready to make a lasting impression.</h2>
     </div>
-    <div class="content" style="padding-top: 10%;">
+    <div class="content" style="padding-top: 10%;padding-bottom: 10%">
         <div class="container-fluid">
         <h1 id="front-text">
             <a href="/login" class="typewrite" id="front-text" style="text-decoration:none;" dataperiod="3000" data-type='["Land More Interviews With ResumeReviser.", "Committed to building your confidence in your resume!"]'>
@@ -127,14 +139,57 @@ window.onload = function() {
         </div>
         <img class="rounded-circle border border-light" width="300px" height="300px" src="{{url_for('static', filename='resources/cat_gif.gif')}}">    
     </div>
-    <div class="about">
-        <h1 style="text-align: center;">About</h1>
-        <h1> 
-            Tired of second-guessing your resume every time you apply to a new job? ResumeReviser is a new and improved AI tool that reviews your existing resume 
-            and makes personalized suggestions based on the specific job listings you want to apply for! Try ResumeReviser today. 
-        </h1>   
+    
     </div>
+
+    <!-- General Statement Section -->
+<div class="container-fluid bg-light text-dark py-5">
+    <div class="container">
+        <h1 class="text-center">About Us</h1>
+        <p class="lead text-center">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget turpis a elit varius vehicula.
+            Integer ut neque rhoncus, ultricies ex vel, auctor arcu. Integer nec nulla ut ligula convallis fermentum.
+        </p>
     </div>
+</div>
+
+<!-- About Us Section -->
+<div class="container-fluid bg-light text-dark py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Member 1 -->
+            <div class="col-md-4">
+                <div class="member-card">
+                    <img src="member1.jpg" alt="Member 1" class="member-img">
+                    <h3>John Doe</h3>
+                    <p>Co-Founder</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+            </div>
+
+            <!-- Member 2 -->
+            <div class="col-md-4">
+                <div class="member-card">
+                    <img src="member2.jpg" alt="Member 2" class="member-img">
+                    <h3>Jane Smith</h3>
+                    <p>Lead Developer</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+            </div>
+
+            <!-- Member 3 -->
+            <div class="col-md-4">
+                <div class="member-card">
+                    <img src="member3.jpg" alt="Member 3" class="member-img">
+                    <h3>Bob Johnson</h3>
+                    <p>Marketing Specialist</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
