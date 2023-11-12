@@ -2,9 +2,9 @@
 
 # ResumeReviser
 
-![Logo](imgs/magic_resume_dark.png)
-![Logo](imgs/magic_resume.png)
-
+<div style="text-align: center;">
+    <img src="imgs/magic_resume.png" alt="Logo" style="max-width: 100%; height: auto;">
+</div>
 
 </div>
 
