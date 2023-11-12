@@ -2,12 +2,24 @@
 <html lang="en">
 <head>
     <title>Suggestions</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/form.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
+<style>
+    body {
+        overflow: hidden;
+    }
+    #textContainer {
+        width: 400px;
+        min-height: 600px;
+    }
+    #system {
+        margin-left:200px;
+    }
+</style>
 
-<body class="text-center">
+<body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="/mainpage">
@@ -26,17 +38,17 @@
                         <a class="nav-link active" aria-current="page" href="/suggestions">Suggestions</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav ml-auto">
-                    {% if user %}
-                    <form class="form-inline" action="{{ url_for('logout') }}" method="post">
-                        <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
-                    </form>
-                    {% endif %}
-                </ul>
+                <ul class="navbar-nav ml-auto"> 
+					{% if user %}
+					<form class="form-inline" action="{{ url_for('logout') }}" method="post">
+						<button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
+					</form>
+					{% endif %}
+				</ul>
             </div>
         </div>
     </nav>
-    <div class="container-fluid" style="padding-top: 10%;">
+    <div class="container-fluid" id="system" style="padding-top: 10%;">
         <form method="post" class="form-signin" style="margin-top:-100px">
             <div class="container">
                 <!-- ... your existing form content ... -->
@@ -53,7 +65,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <div id="textContainer">
+                        <div class="p-3 border bg-light" id="textContainer">
                             <!-- Text content will be displayed here -->
                         </div>
                     </div>
@@ -64,9 +76,6 @@
             </div>
         </form>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Add an event listener to handle dropdown item clicks
@@ -94,8 +103,8 @@
             // Create an iframe element
             var iframe = document.createElement('iframe');
             iframe.src = path_to_pdfs[promptValue];
-            iframe.width = '100%';
-            iframe.height = '400px';
+            iframe.width = '400px';
+            iframe.height = '600px';
 
             // Update the text content based on the selected career
             var textContent = getTextContent(promptValue);
@@ -123,5 +132,8 @@
             }
         }
     </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
