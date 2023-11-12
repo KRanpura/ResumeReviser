@@ -2,9 +2,21 @@
 
 # ResumeReviser
 
+<div style="text-align: center;">
+    <img src="imgs/magic_resume.png" alt="Logo"  width="300" height="300">
+</div>
+
 </div>
 
 **An AI tool that helps revise and review resumes while offering tips based on job descriptions!**
+
+Built with:
+
+*Flask
+*Python
+*Sqlite3
+*SQL 
+
 
 <p align="center">
 <i>Built for HackPrinceton Fall 2023</i>
