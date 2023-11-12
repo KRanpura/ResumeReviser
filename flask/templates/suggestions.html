@@ -105,6 +105,7 @@
             iframe.src = path_to_pdfs[promptValue];
             iframe.width = '400px';
             iframe.height = '600px';
+            
 
             // Update the text content based on the selected career
             var textContent = getTextContent(promptValue);
@@ -131,6 +132,22 @@
                     return '';
             }
         }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Add an event listener to handle dropdown item clicks
+            document.querySelectorAll('.dropdown-item').forEach(function (item) {
+                item.addEventListener('click', function () {
+                    // Call the function to display the corresponding prompt and text
+                    displayPromptAndText(this.dataset.prompt);
+                });
+            });
+    
+            // Display the iframe with a default career value (e.g., 'Software Developer') on page load
+            displayPromptAndText('Software Developer');
+        });
+    
+        // Rest of your JavaScript code...
     </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
