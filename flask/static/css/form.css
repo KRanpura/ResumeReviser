@@ -7,11 +7,13 @@
     --palette-navy: rgba(9,9,121,1);
     --palette-light: rgba(3,213,255,1);
     --palette-white: rgba();
+    --logo-art: "{{url_for('static','resources/magic_resume.png')}}";
 }
 
 html,
 body {
     height: 100%;
+    overflow: hidden;
     /* global 94%+ browsers support */
     background: rgb(2,0,36);
     background: linear-gradient(90deg, 
@@ -90,7 +92,7 @@ body .form-signin {
 }
 
 #form-title1 {
-    font-family:'Times New Roman', Times, serif;
+    font-family: 'Crimson Pro';
     text-align: center;
     color:  white;
     margin-top: 10px;
@@ -100,4 +102,9 @@ body .form-signin {
     font-family: 'Montserrat', Courier, monospace;
     text-align: center;
     color:  white;
+}
+
+#nav-text {
+    font-family: 'Crimson Pro';
+    font-size: 19px;
 }

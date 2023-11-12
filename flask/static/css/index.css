@@ -15,8 +15,8 @@ body {
     height: 100%;
 }
 
-body .container-fluid {
-  display: -ms-flexbox;
+.content {
+    display: -ms-flexbox;
     display: -webkit-box;
     display: flex;
     -ms-flex-align: center;
@@ -72,4 +72,9 @@ body {
   max-width: 500px;
   max-height: 500px;
   font-style:italic;
+}
+
+#nav-text {
+  font-family: 'Crimson Pro';
+  font-size: 19px;
 }
