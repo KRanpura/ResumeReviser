@@ -9,28 +9,31 @@
     <title>Resume</title>
 </head>
 <style>
-    body {
-        color: white; /* Set text color to white for the entire body */
+    @import url("https://fonts.googleapis.com/css2?family=Crimson+Pro&family=Literata");
+    h1, h4 {
+        color: white;
     }
-
-    /* Style for the navbar */
-    .navbar {
-        background-color: #f8f9fa; /* Set the background color of the navbar */
+    .container {
+        padding-top: 5%;
     }
-
-    .navbar-nav a {
-        color: black !important; /* Set text color to white for navbar links */
+    .intro {
+        text-align: center;
+        font-family: "Crimson Pro";
+        padding-top: 10%;
     }
     .modal-content {
         color: black; /* Set text color to black for the modal content */
     }
+    #job_listing {
+
+    }
     /* Add more specific styles for other elements if needed */
 </style>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav-text">
+		<div class="container-fluid">
 			<a class="navbar-brand" href="/mainpage">
-				<img src="{{ url_for('static', filename='resources/logo.png') }}" alt="" width="30" height="30" class="d-inline-block align-text-top">
+				<img src="{{ url_for('static', filename='resources/magic_resume_dark.png') }}" alt="" width="30" height="30" class="d-inline-block align-text-center">
 				ResumeReviser
 			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +42,7 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="/suggestions">Suggestions</a>
+						<a class="nav-link" aria-current="page" href="/suggestions">Suggestions</a>
 					</li>
 				</ul>
 				<ul class="navbar-nav ml-auto"> 
@@ -53,7 +56,9 @@
 			</div>
 		</div>
 	</nav>
-    <h1>Hi {{ user.first_name }}, Upload A Resume</h1>
+    <h1 class="intro">Hi {{ user.first_name }}, let's upload your resume!</h1>
+    <div class="container">
+    <div class="row">
     <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
         <input type="file" name="pdf_file" accept=".pdf" required>
         <br>
@@ -63,7 +68,8 @@
         <br>
         <input type="submit" value="Upload and Process">
     </form>
-
+    </div>
+    <div class="col">
     {% if pdf_path %}
         <iframe src="{{ url_for('uploaded_file', filename=filename) }}" width="800" height="600" style="border: none;"></iframe>
     {% endif %}
@@ -76,6 +82,8 @@
             <p id ="matchingWords"></p>
             <a href="/suggestions" id="suggestions">Suggestions for future career</a>
         </div>
+    </div>
+    </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
@@ -111,8 +119,6 @@
                 }
             }
         });
-        
-        
     </script>
 </body>
 </html>
