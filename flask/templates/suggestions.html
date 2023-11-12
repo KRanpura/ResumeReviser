@@ -1,24 +1,10 @@
 <!DOCTYPE html>
 <html>
-<style type="text/css">
-</style>
-
 <head>
-	<title>Suggestions</title>
-	<link rel="stylesheet" href="{{url_for('static', filename='css/form.css')}}">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<!DOCTYPE html>
-<html>
-<style type="text/css">
-</style>
-
-<head>
-	<title>Login</title>
-	<link rel="stylesheet" href="{{url_for('static', filename='css/form.css')}}">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Suggestions</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/form.css')}}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body class="text-center">
@@ -51,21 +37,16 @@
         <form method="post" class="form-signin" style="margin-top:-100px">
             <div class="container">
                 <!-- ... your existing form content ... -->
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="promptRadio" id="prompt1" value="prompt1">
-                    <label class="form-check-label" for="prompt1">Prompt 1</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="promptRadio" id="prompt2" value="prompt2">
-                    <label class="form-check-label" for="prompt2">Prompt 2</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="promptRadio" id="prompt3" value="prompt3">
-                    <label class="form-check-label" for="prompt3">Prompt 3</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="promptRadio" id="prompt4" value="prompt4">
-                    <label class="form-check-label" for="prompt4">Prompt 4</label>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="promptDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Select Prompt
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="promptDropdown">
+                        <a class="dropdown-item" href="#" data-prompt="prompt1">Prompt 1</a>
+                        <a class="dropdown-item" href="#" data-prompt="prompt2">Prompt 2</a>
+                        <a class="dropdown-item" href="#" data-prompt="prompt3">Prompt 3</a>
+                        <a class="dropdown-item" href="#" data-prompt="prompt4">Prompt 4</a>
+                    </div>
                 </div>
                 <div id="promptContainer">
                     <!-- Prompt content will be displayed here -->
@@ -73,19 +54,22 @@
             </div>
         </form>
     </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Add an event listener to handle radio button changes
-            document.querySelectorAll('input[name="promptRadio"]').forEach(function(radio) {
-                radio.addEventListener('change', function() {
+            // Add an event listener to handle dropdown item clicks
+            document.querySelectorAll('.dropdown-item').forEach(function(item) {
+                item.addEventListener('click', function() {
                     // Call the function to display the corresponding prompt
-                    displayPrompt(this.value);
+                    displayPrompt(this.dataset.prompt);
                 });
             });
         });
 
         function displayPrompt(promptValue) {
-            // Define your prompts based on the selected radio button
+            // Define your prompts based on the selected dropdown item
             var prompts = {
                 'prompt1': 'This is prompt 1 content.',
                 'prompt2': 'This is prompt 2 content.',
@@ -100,14 +84,5 @@
             promptContainer.innerHTML = prompts[promptValue];
         }
     </script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</body>
-</html>
-</div>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

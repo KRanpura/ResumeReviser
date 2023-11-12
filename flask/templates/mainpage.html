@@ -8,9 +8,27 @@
 
     <title>Resume</title>
 </head>
+<style>
+    body {
+        color: white; /* Set text color to white for the entire body */
+    }
+
+    /* Style for the navbar */
+    .navbar {
+        background-color: #f8f9fa; /* Set the background color of the navbar */
+    }
+
+    .navbar-nav a {
+        color: black !important; /* Set text color to white for navbar links */
+    }
+    .modal-content {
+        color: black; /* Set text color to black for the modal content */
+    }
+    /* Add more specific styles for other elements if needed */
+</style>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<div class="container-fluid">
+		<div class="container">
 			<a class="navbar-brand" href="/mainpage">
 				<img src="{{ url_for('static', filename='resources/logo.png') }}" alt="" width="30" height="30" class="d-inline-block align-text-top">
 				ResumeReviser
@@ -55,6 +73,7 @@
             <span class="close">&times;</span>
             <h2>Match Percentage</h2>
             <p id="matchPercentage"></p>
+            <p id ="matchingWords"></p>
             <a href="/suggestions" id="suggestions">Suggestions for future career</a>
         </div>
     </div>
@@ -66,24 +85,34 @@
             var modal = document.getElementById('matchModal');
             var span = document.getElementsByClassName("close")[0];
             var matchPercentage = document.getElementById('matchPercentage');
-    
+            var matchingWords = document.getElementById('matchingWords'); // Add an element to display matching words
+        
             // Check if the modal should be displayed based on the presence of matPercent
             {% if matPercent is defined %}
                 modal.style.display = "block";
-                matchPercentage.innerHTML = "Resume is a {{ matPercent }}% match with the job listing!";
+                matchPercentage.innerHTML = "Resume is a {{ matPercent[0] }}% match with the job listing!";
+                
+                // Check if matching words are available
+                {% if matPercent[1] is defined %}
+                    // Use the join method in Python to concatenate list elements into a string
+                    matchingWords.innerHTML = "Matching Words: " + "{{ ', '.join(matPercent[1]) }}";
+                {% endif %}
+                
                 suggestions.innerHTML = "Suggestions for future career";
             {% endif %}
-    
+        
             span.onclick = function() {
                 modal.style.display = "none";
             }
-    
+        
             window.onclick = function(event) {
                 if (event.target == modal) {
                     modal.style.display = "none";
                 }
             }
         });
+        
+        
     </script>
 </body>
 </html>

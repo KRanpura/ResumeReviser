@@ -158,7 +158,7 @@ def checkKeyWordMatch(job_listing):
 
     with open(pdf_path, 'rb') as pdf_file:
         pdf_reader = PyPDF2.PdfReader(pdf_file)
-        
+
         # Assuming you want to extract text from the first page (zero-indexed)
         page_number = 0
         text = extract_text_from_pdf(pdf_path, page_number)
@@ -171,10 +171,14 @@ def checkKeyWordMatch(job_listing):
         matPercent = cosine_similarity(cMatrix)[0][1] * 100
         matPercent = round(matPercent, 2)  # round to two decimal
 
-        session['feature_names'] = cVect.get_feature_names_out().tolist()
+        feature_names = cVect.get_feature_names_out().tolist()
 
-        print(matPercent)
-        return str(matPercent)
+        # Filter out non-matching words
+        matching_words = [word for word, value in zip(feature_names, cMatrix.toarray()[0]) if value > 0]
+
+        session['feature_names'] = feature_names
+
+        return str(matPercent), matching_words
 
 def get_db():
     db = getattr(g, '_database', None)
