@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Suggestions</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/form.css')}}">
@@ -51,8 +51,15 @@
                         <a class="dropdown-item" href="#" data-prompt="Attorney">Attorney</a>
                     </div>
                 </div>
-                <div id="promptContainer">
-                    <!-- Prompt content will be displayed here -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <div id="textContainer">
+                            <!-- Text content will be displayed here -->
+                        </div>
+                    </div>
+                    <div class="col-md-8" id="promptContainer">
+                        <!-- Prompt content will be displayed here -->
+                    </div>
                 </div>
             </div>
         </form>
@@ -65,13 +72,13 @@
             // Add an event listener to handle dropdown item clicks
             document.querySelectorAll('.dropdown-item').forEach(function(item) {
                 item.addEventListener('click', function() {
-                    // Call the function to display the corresponding prompt
-                    displayPrompt(this.dataset.prompt);
+                    // Call the function to display the corresponding prompt and text
+                    displayPromptAndText(this.dataset.prompt);
                 });
             });
         });
 
-        function displayPrompt(promptValue) {
+        function displayPromptAndText(promptValue) {
             // Define your prompts based on the selected dropdown item
             var path_to_pdfs = {
                 'Software Developer': 'static/resumes/soft.pdf',
@@ -80,21 +87,40 @@
                 'Attorney': 'static/resumes/attorney.pdf'
             };
 
-            // Get the container where the prompt will be displayed
+            // Get the containers where the prompt and text will be displayed
             var promptContainer = document.getElementById('promptContainer');
+            var textContainer = document.getElementById('textContainer');
 
             // Create an iframe element
             var iframe = document.createElement('iframe');
             iframe.src = path_to_pdfs[promptValue];
-            iframe.width = '200%'; // Adjust the width as needed
-            iframe.height = '1000px'; // Adjust the height as needed
-            iframe.style.cssText = 'width: 200%; height: 1000px; margin-left: 0; margin-top: 20px;';
+            iframe.width = '100%';
+            iframe.height = '400px';
 
-            // Clear previous content and append the iframe
+            // Update the text content based on the selected career
+            var textContent = getTextContent(promptValue);
+
+            // Clear previous content and append the iframe and text
             promptContainer.innerHTML = '';
             promptContainer.appendChild(iframe);
-            // Display the corresponding prompt content
-            //promptContainer.innerHTML = path_to_pdfs[promptValue];
+            textContainer.innerHTML = textContent;
+        }
+
+        function getTextContent(career) {
+            // Add logic to get text content based on the selected career
+            // You can customize this function based on your needs
+            switch (career) {
+                case 'Software Developer':
+                    return 'Text content for Software Developer';
+                case 'Teacher':
+                    return 'Text content for Teacher';
+                case 'Medical Physician':
+                    return 'Text content for Medical Physician';
+                case 'Attorney':
+                    return 'Text content for Attorney';
+                default:
+                    return '';
+            }
         }
     </script>
 </body>

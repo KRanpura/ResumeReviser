@@ -1,15 +1,29 @@
-<!-- dashboard.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Add your head content here -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+
+        body, h1, h2, h3, h4, h5, h6, p, a, th, td {
+            color: white;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+
+        table {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav-text">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="/">
-				<img src="{{ url_for('static', filename='resources/magic_resume_dark.png') }}" alt="" width="30" height="30" class="d-inline-block align-text-top">
+			<a class="navbar-brand" href="/mainpage">
+				<img src="{{ url_for('static', filename='resources/magic_resume_dark.png') }}" alt="" width="30" height="30" class="d-inline-block align-text-center">
 				ResumeReviser
 			</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,42 +31,62 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-				<li class="nav-item">
-					<a class="nav-link" aria-current="page" href="/login">Login</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/signup">Signup</a>
-				</li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/dashboard">Dashboard</a>
+                    </li>
+					<li class="nav-item">
+						<a class="nav-link" aria-current="page" href="/suggestions">Suggestions</a>
+					</li>
+				</ul>
+				<ul class="navbar-nav ml-auto"> 
+					{% if user %}
+					<form class="form-inline" action="{{ url_for('logout') }}" method="post">
+						<button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
+					</form>
+					{% endif %}
+				</ul>
 				</ul>
 			</div>
 		</div>
 	</nav>
 
-    <h1>Hi {{ user.first_name }}, Dashboard</h1>
+    <div class="container">
+        <h1>Hi {{ user.first_name }}, Dashboard</h1>
 
-    {% if submissions %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Filename</th>
-                    <th>Job Listing</th>
-                    <th>Match Percentage</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for submission in submissions %}
-                    <tr>
-                        <td>{{ submission.pdf_filename }}</td>
-                        <td>{{ submission.job_listing }}</td>
-                        <td>{{ submission.match_percentage }}%</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No submissions found.</p>
-    {% endif %}
+        {% if submissions %}
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Filename</th>
+            <th>Job Listing</th>
+            <th>Match Percentage</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for submission in submissions %}
+            <tr>
+                <td>{{ submission.pdf_filename }}</td>
+                <td>
+                    <!-- Collapsible job listing content -->
+                    <a role="button" data-toggle="collapse" href="#jobListing{{ loop.index }}" aria-expanded="false" aria-controls="jobListing{{ loop.index }}">
+                        Show Job Listing <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="jobListing{{ loop.index }}" style="height: auto; overflow: hidden;">
+                        {{ submission.job_listing }}
+                    </div>
+                </td>
+                <td>{{ submission.match_percentage }}%</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+        {% else %}
+            <p>No submissions found.</p>
+        {% endif %}
+    </div>
 
-    <!-- Add your script imports and inline scripts here -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -190,9 +190,9 @@
             var matchingWords = document.getElementById('matchingWords');
     
             // Check if the modal should be displayed based on the presence of matPercent
-            {% if matPercent is defined %}
+            {% if matPercent is not none %}
                 matchModal.show();
-                matchPercentage.innerHTML = "Resume is a {{ matPercent[0] }}% match with the job listing!";
+                matchPercentage.innerHTML = "Resume is a {{ matPercent }}% match with the job listing!";
     
                 // Check if matching words are available
                 {% if matPercent[1] is defined %}
